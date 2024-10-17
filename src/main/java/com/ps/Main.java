@@ -8,9 +8,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import javax.swing.text.DateFormatter;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -98,10 +96,10 @@ public class Main
                 // Parsing and adding transaction
                 try {
                     double amount = Double.parseDouble(fields[4]);
-                    //Transaction transaction = new Transaction(amount, fields[0], fields[2], fields[1], fields[3]);
-                    Transaction transaction = new Transaction(amount, fields[0], fields[2], fields[3], fields[5]);
+                    //Transaction transaction1 = new Transaction(amount, fields[0], fields[2], fields[1], fields[3]);
+                    Transaction transaction = new Transaction(amount, fields[1], fields[2], fields[3], fields[4]);
                     allTransactions.add(transaction);
-                } catch (NumberFormatException e) {
+                } catch (Exception e) {
                     System.out.println("Error parsing amount from line: " + line);
                 }
             }
@@ -258,7 +256,12 @@ public class Main
         System.out.println("All Transactions:");
         System.out.println("Displaying All Deposits:");
         for (Transaction transaction : allTransactions) {
-            System.out.println(transaction);
+            System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f\n",
+                    transaction.getDate(),
+                    transaction.getTime(),
+                    transaction.getDescription(),
+                    transaction.getVendor(),
+                    transaction.getAmount());
         }
     }
 
@@ -268,7 +271,12 @@ public class Main
         System.out.println("Displaying All Deposits:");
         for (Transaction transaction : allTransactions) {
             if (transaction.getAmount() > 0) {
-                System.out.println(transaction);
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
             }
         }
     }
@@ -279,7 +287,12 @@ public class Main
         System.out.println("Displaying All payments:");
         for (Transaction transaction : allTransactions) {
             if (transaction.getAmount() < 0) {
-                System.out.println(transaction);
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
             }
         }
     }
