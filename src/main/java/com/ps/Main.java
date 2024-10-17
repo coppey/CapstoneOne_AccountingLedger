@@ -97,7 +97,7 @@ public class Main
                 try {
                     double amount = Double.parseDouble(fields[4]);
                     //Transaction transaction1 = new Transaction(amount, fields[0], fields[2], fields[1], fields[3]);
-                    Transaction transaction = new Transaction(amount, fields[1], fields[2], fields[3], fields[4]);
+                    Transaction transaction = new Transaction(fields[0], fields[1], fields[2], fields[3], amount);
                     allTransactions.add(transaction);
                 } catch (Exception e) {
                     System.out.println("Error parsing amount from line: " + line);
@@ -107,27 +107,28 @@ public class Main
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println();
     }
 
     public static void addDeposit()
     {
         //BufferedWriter method
-        System.out.print("Enter deposit amount: ");
-        double amount = 0;
-        inputScanner.nextLine(); // Consume newline
-
         System.out.print("Enter description: ");
         String description = inputScanner.nextLine();
 
         System.out.print("Enter vendor: ");
         String vendor = inputScanner.nextLine();
 
+        System.out.print("Enter deposit amount: ");
+        double amount = inputScanner.nextDouble();
+        inputScanner.nextLine(); // Consume newline
+
         // Get current date and time, formatted
         String date = LocalDate.now().format(dateFormatter);
         String time = LocalTime.now().format(timeFormatter);
 
         // Create the transaction record
-        String record = String.format("%s,%s,%s,%s,%.2f\n", date, time, description, vendor, amount);
+        String record = String.format("%s|%s|%s|%s|%.2f\n", date, time, description, vendor, amount);
 
         // Write the record to a CSV file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv", true))) {
@@ -224,8 +225,9 @@ public class Main
                     // Handle incorrect commands
                     System.out.println("Command not found, please try again");
             }
-
+            commandScanner.nextLine();
         }while (navLedgerCommand != 0);
+
 
     }
 
@@ -254,7 +256,6 @@ public class Main
     {
         //Method uses loop to run through all transactions and prints them out in proper format
         System.out.println("All Transactions:");
-        System.out.println("Displaying All Deposits:");
         for (Transaction transaction : allTransactions) {
             System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f\n",
                     transaction.getDate(),

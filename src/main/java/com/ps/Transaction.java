@@ -8,11 +8,12 @@ public class Transaction {
     private String vendor;
 
     // Constructor
-    public Transaction(double amount,
+    public Transaction(
                        String date,
-                       String description,
                        String time,
-                       String vendor)
+                       String description,
+                       String vendor,
+                       double amount)
     {
         this.amount = amount;
         this.date = date;
@@ -62,6 +63,7 @@ public class Transaction {
     }
 
     // Override toString method
+
 
     @Override
     public String toString() {
