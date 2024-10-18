@@ -7,9 +7,12 @@ This is a Banking Ledger system that allows the user to create, record, and reca
 ## Features
 
 - Create and Record Transactions
+- Data Storage in Ledger
 - Access Ledger 
 - Sort Through Recorded Transactions with specific parameters
 - Access and call reports based off dates and times
+- Error Handling
+- Expandable
 
 ## Aspects
 - Main Class: Where user input is taken and executed

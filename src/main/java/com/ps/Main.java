@@ -484,6 +484,13 @@ public class Main
     // Search by Custom
     public static void searchCustom()
     {
-        System.out.println("Search by Custom Name:");
+        /*
+        for loop that runs through transactions
+        boolean conditions to ensure properties match user inputs
+        returns all "True" transactions
+         */
+        System.out.println("Still under construction :)");
+
+        runReports();
     }
 }
