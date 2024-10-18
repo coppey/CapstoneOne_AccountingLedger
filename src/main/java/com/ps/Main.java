@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -52,7 +51,7 @@ public class Main
             // Use scanner to store the users command input into a variable
             try {
                 mainMenuCommand = commandScanner.nextInt();
-            } catch (InputMismatchException ime) {
+            } catch (Exception e) {
                 //ime.printStackTrace();
                 mainMenuCommand = 0;
             }
@@ -83,31 +82,30 @@ public class Main
     public static void loadTransactions()
     {
         try {
+
             BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"));
+            String firstLine = bufferedReader.readLine(); // Assumes the first line is the header and skips it
             String line;
 
             // Skip over the header line
-            bufferedReader.readLine(); // Assumes the first line is the header and skips it
+
 
             // Process each remaining line in the file
             while ((line = bufferedReader.readLine()) != null) {
                 String[] fields = line.split("\\|");
-
-                // Parsing and adding transaction
-                try {
+                    String date = fields[0];
+                    String time = fields[1];
+                    String description = fields[2];
+                    String vendor = fields[3];
                     double amount = Double.parseDouble(fields[4]);
-                    //Transaction transaction1 = new Transaction(amount, fields[0], fields[2], fields[1], fields[3]);
-                    Transaction transaction = new Transaction(fields[0], fields[1], fields[2], fields[3], amount);
-                    allTransactions.add(transaction);
-                } catch (Exception e) {
-                    System.out.println("Error parsing amount from line: " + line);
-                }
+                    //allTransactions.add(new Transaction(fields[0], fields[1], fields[2], fields[3], amount));
+                allTransactions.add(new Transaction(date, time, description, vendor, amount));
             }
             bufferedReader.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println();
+
     }
 
     public static void addDeposit()
@@ -133,8 +131,7 @@ public class Main
         // Write the record to a CSV file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv", true))) {
             writer.write(record);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("Deposit added successfully!");
@@ -199,7 +196,7 @@ public class Main
             // Use scanner to store the users command input into a variable
             try {
                 navLedgerCommand = commandScanner.nextInt();
-            } catch (InputMismatchException ime) {
+            } catch (Exception e) {
                 navLedgerCommand = 0;
             }
 
@@ -227,14 +224,13 @@ public class Main
             }
             commandScanner.nextLine();
         }while (navLedgerCommand != 0);
-
-
     }
 
     //create method to load all transactions
     public static void loadReports()
     {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"))) {
+            String firstLine = bufferedReader.readLine();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 // Split the CSV line by the pipe character '|'
@@ -325,7 +321,7 @@ public class Main
             // Use scanner to store the users command input into a variable
             try {
                 navReportCommand = commandScanner.nextInt();
-            } catch (InputMismatchException ime) {
+            } catch (Exception e) {
                 navReportCommand = 0;
             }
 
@@ -357,9 +353,7 @@ public class Main
                     // Handle incorrect commands
                     System.out.println("Command not found, please try again");
             }
-
         }while (navReportCommand != 0);
-
     }
 
     public static void searchMTD()
@@ -383,9 +377,15 @@ public class Main
 
             // Check if the transaction occurred in the current month and year
             if (transactionMonth == currentMonth && transactionYear == currentYear) {
-                System.out.println(transaction);
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
             }
         }
+        System.out.println();
     }
 
     // Search Previous Month
@@ -402,9 +402,15 @@ public class Main
             LocalDate transactionDate = LocalDate.parse(transaction.getDate(), dateFormatter);
 
             if (transactionDate.getMonthValue() == prevMonth && transactionDate.getYear() == prevYear) {
-                System.out.println(transaction);
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
             }
         }
+        System.out.println();
     }
 
     // Search Year to Date
@@ -419,9 +425,15 @@ public class Main
             LocalDate transactionDate = LocalDate.parse(transaction.getDate(), dateFormatter);
 
             if (transactionDate.getYear() == currentYear) {
-                System.out.println(transaction);
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
             }
         }
+        System.out.println();
     }
 
     // Search Previous Year
@@ -436,9 +448,15 @@ public class Main
             LocalDate transactionDate = LocalDate.parse(transaction.getDate(), dateFormatter);
 
             if (transactionDate.getYear() == prevYear) {
-                System.out.println(transaction);
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
             }
         }
+        System.out.println();
     }
 
     // Search by Vendor
@@ -451,13 +469,20 @@ public class Main
 
         for (Transaction transaction : allTransactions) {
             if (transaction.getVendor().equalsIgnoreCase(vendor)) {
-                System.out.println(transaction);
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
             }
         }
+        System.out.println();
     }
 
     // Search by Custom
-    public static void searchCustom(){
+    public static void searchCustom()
+    {
         System.out.println("Search by Custom Name:");
     }
 }
