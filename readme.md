@@ -20,7 +20,7 @@ This is a Banking Ledger system that allows the user to create, record, and reca
 
 On boot the user is presented with the main menu
 
-![Main/menu](assets/mainMenuSc.png)
+![Main/menu](assets/mainMenuSc.PNG)
 
 From here the user can pick one of four options:
 - 1 Add a Deposit
@@ -32,22 +32,22 @@ Options 1 & 2 will allow the user to write there repective transactions and stor
 Option 0 is self-explanatory 
 Option 3 takes you to a subMenu that interacts with the ledger
 
-![Sub/menu](assets/menuPic3.png)
+![Sub/menu](assets/menuPic3.PNG)
 
 Within the Ledger your options are expanded to call on past Transactions
 For example the First option displays all recorded transactions
 
-![Option/One](assets/OptionOne.png)
+![Option/One](assets/OptionOne.PNG)
 
 The other options have similar functionality relative to how they are named
 
 Option 4 on the other hand allows the user to load reports based of date of transactions
 
-![Option/Four](assets/optionFour.png)
+![Option/Four](assets/optionFour.PNG)
 
 This is the final menu which will be the most specific and curated search/sort options  
 
-![Date/Example](assets/dateSch.png)
+![Date/Example](assets/dateSch.PNG)
 
 ## The Code Behind it
 
