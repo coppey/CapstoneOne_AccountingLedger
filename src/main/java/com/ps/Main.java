@@ -26,6 +26,7 @@ public class Main
     {
         loadTransactions();
 
+        System.out.println("Welcome User");
         /*
         create a main menu that allows a user to
         1) add deposit,
@@ -226,7 +227,7 @@ public class Main
         }while (navLedgerCommand != 0);
     }
 
-    //create method to load all transactions
+    //create method to load all Reports
     public static void loadReports()
     {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"))) {
