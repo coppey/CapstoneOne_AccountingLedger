@@ -165,7 +165,7 @@ public class Main
         String record = String.format("%s|%s|%s|%s|%.2f\n", date, time, description, vendor, -amount);
 
         // Adds to ArrayList
-        Transaction transaction = new Transaction(date, time, description, vendor, amount);
+        Transaction transaction = new Transaction(date, time, description, vendor, -amount);
         allTransactions.add(transaction);
 
         // Write the record to a CSV file
