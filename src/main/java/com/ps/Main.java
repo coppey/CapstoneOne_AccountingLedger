@@ -85,11 +85,9 @@ public class Main
         try {
 
             BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"));
+            // Skip over the header line
             String firstLine = bufferedReader.readLine(); // Assumes the first line is the header and skips it
             String line;
-
-            // Skip over the header line
-
 
             // Process each remaining line in the file
             while ((line = bufferedReader.readLine()) != null) {
@@ -106,7 +104,6 @@ public class Main
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public static void addDeposit()
@@ -132,6 +129,8 @@ public class Main
         // Write the record to a CSV file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv", true))) {
             writer.write(record);
+            //writer.close();
+            writer.flush(); //ensures all data is pushed out before moving on
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -171,7 +170,11 @@ public class Main
     public static void accessLedger()
     {
         //load report
-        loadReports();
+        //loadReports();
+        //loadTransactions();
+        /*
+        load transaction prints all transaction including recent but does it twice
+         */
 
         //make variable to navigate ledger
         int navLedgerCommand;
@@ -228,31 +231,31 @@ public class Main
     }
 
     //create method to load all Reports
-    public static void loadReports()
-    {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"))) {
-            String firstLine = bufferedReader.readLine();
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                // Split the CSV line by the pipe character '|'
-                String[] values = line.split("\\|");
-                if (values.length == 5) {
-                    String date = values[0];
-                    String time = values[1];
-                    String description = values[2];
-                    String vendor = values[3];
-                    double amount = Double.parseDouble(values[4]);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void loadReports()
+//    {
+//        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"))) {
+//            String firstLine = bufferedReader.readLine();
+//            String line;
+//            while ((line = bufferedReader.readLine()) != null) {
+//                // Split the CSV line by the pipe character '|'
+//                String[] values = line.split("\\|");
+//                if (values.length == 5) {
+//                    String date = values[0];
+//                    String time = values[1];
+//                    String description = values[2];
+//                    String vendor = values[3];
+//                    double amount = Double.parseDouble(values[4]);
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static void displayAll()
     {
         //Method uses loop to run through all transactions and prints them out in proper format
-        System.out.println("All Transactions:");
+        System.out.print("All Transactions:\n");
         for (Transaction transaction : allTransactions) {
             System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f\n",
                     transaction.getDate(),
@@ -266,7 +269,8 @@ public class Main
     public static void displayDeposits()
     {
         //Method checks all transactions for those greater than zero and prints them out
-        System.out.println("Displaying All Deposits:");
+        //tried \n to fix skipping over final line
+        System.out.print("Displaying All Deposits:\n");
         for (Transaction transaction : allTransactions) {
             if (transaction.getAmount() > 0) {
                 System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f\n",
