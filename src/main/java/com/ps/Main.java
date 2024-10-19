@@ -126,11 +126,18 @@ public class Main
         // Create the transaction record
         String record = String.format("%s|%s|%s|%s|%.2f\n", date, time, description, vendor, amount);
 
+        // Wasn't adding to arraylist, needed to implement this
+        Transaction transaction = new Transaction(date, time, description, vendor, amount);
+        allTransactions.add(transaction);
+
         // Write the record to a CSV file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv", true))) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv", true));
             writer.write(record);
-            //writer.close();
-            writer.flush(); //ensures all data is pushed out before moving on
+
+            writer.close();
+
+            //writer.flush(); //ensures all data is pushed out before moving on
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -157,9 +164,18 @@ public class Main
         // Create the transaction record
         String record = String.format("%s|%s|%s|%s|%.2f\n", date, time, description, vendor, -amount);
 
+        // Adds to ArrayList
+        Transaction transaction = new Transaction(date, time, description, vendor, amount);
+        allTransactions.add(transaction);
+
         // Write the record to a CSV file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv", true))) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv", true));
             writer.write(record);
+
+            writer.close();
+
+            //writer.flush(); //ensures all data is pushed out before moving on
         } catch (Exception e) {
             e.printStackTrace();
         }
